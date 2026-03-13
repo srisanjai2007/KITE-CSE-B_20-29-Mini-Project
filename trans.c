@@ -18,6 +18,7 @@ void textFile(FILE *readPtr);
 void updateRecord(FILE *fPtr);
 void newRecord(FILE *fPtr);
 void deleteRecord(FILE *fPtr);
+void displayRecord(FILE *fPtr);
 
 int main(int argc, char *argv[])
 {
@@ -32,7 +33,7 @@ int main(int argc, char *argv[])
     }
 
     // enable user to specify action
-    while ((choice = enterChoice()) != 5)
+    while ((choice = enterChoice()) != 6)
     {
         switch (choice)
         {
@@ -51,6 +52,9 @@ int main(int argc, char *argv[])
         // delete existing record
         case 4:
             deleteRecord(cfPtr);
+            break;
+        case 5:
+            displayRecord(cfPtr);
             break;
         // display if user does not select valid choice
         default:
@@ -211,8 +215,32 @@ unsigned int enterChoice(void)
                  "2 - update an account\n"
                  "3 - add a new account\n"
                  "4 - delete an account\n"
-                 "5 - end program\n? ");
+                 "5 - display an account\n"
+                 "6 - end program\n? ");
 
     scanf("%u", &menuChoice); // receive choice from user
     return menuChoice;
 } // end function enterChoice
+void displayRecord(FILE *fPtr)
+{
+    struct clientData client = {0, "", "", 0.0};
+    unsigned int account;
+
+    printf("Enter account number: ");
+    scanf("%u", &account);
+
+    fseek(fPtr, (account - 1) * sizeof(struct clientData), SEEK_SET);
+    fread(&client, sizeof(struct clientData), 1, fPtr);
+
+    if (client.acctNum == 0)
+    {
+        printf("Account not found\n");
+    }
+    else
+    {
+        printf("\nAccount Number : %d\n", client.acctNum);
+        printf("Last Name      : %s\n", client.lastName);
+        printf("First Name     : %s\n", client.firstName);
+        printf("Balance        : %.2f\n", client.balance);
+    }
+}
