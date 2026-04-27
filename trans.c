@@ -3,6 +3,7 @@
 // be placed in the file, and deletes data previously in the file.
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 // clientData structure definition
 struct clientData
 {
@@ -222,6 +223,29 @@ void newRecord(FILE *fPtr)
         fwrite(&client, sizeof(struct clientData), 1, fPtr);
     } // end else
 } // end function newRecord
+void searchByName(FILE *fPtr)
+{
+    char name[15];
+    struct clientData client;
+
+    printf("Enter name to search: ");
+    scanf("%s", name);
+
+    rewind(fPtr);
+
+    while (fread(&client, sizeof(struct clientData), 1, fPtr))
+    {
+        if (strcmp(client.firstName, name) == 0 ||
+            strcmp(client.lastName, name) == 0)
+        {
+            printf("%d %s %s %.2f\n",
+                   client.acctNum,
+                   client.lastName,
+                   client.firstName,
+                   client.balance);
+        }
+    }
+}
 
 // enable user to input menu choice
 unsigned int enterChoice(void)
