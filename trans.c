@@ -58,6 +58,13 @@ int main(int argc, char *argv[])
             displayRecord(cfPtr);
             break;
         // display if user does not select valid choice
+        case 6:
+            displayAll(cfPtr);
+            break;
+            
+        case 6:
+            searchByName(cfPtr);
+            break;
         default:
             puts("Incorrect choice");
             break;
@@ -260,7 +267,8 @@ unsigned int enterChoice(void)
                  "4 - delete an account\n"
                  "5 - display an account\n"
                  "6 - display all accounts\n"
-                 "7 - end program\n");
+                 "7 - Search by name\n"
+                 "8 - end program\n");
 
     scanf("%u", &menuChoice); // receive choice from user
     return menuChoice;
